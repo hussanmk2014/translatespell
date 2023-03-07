@@ -6,6 +6,7 @@ class TranslateApp extends React.Component {
     this.state = {
       englishWords: "",
       arabicWords: [],
+      swedishWords: [],
     };
     this.handleWordChange = this.handleWordChange.bind(this);
     this.handleSpeak = this.handleSpeak.bind(this);
@@ -30,19 +31,30 @@ class TranslateApp extends React.Component {
     const apiKey = "AIzaSyDE-wAlnykNe_rgHjTeXFpO_2h3AeIiebw";
     const englishWords = this.state.englishWords.split(" ");
     const arabicWords = [];
+    const swedishWords = [];
 
     for (const englishWord of englishWords) {
-      const response = await fetch(
+      // Translate to Arabic
+      const arabicResponse = await fetch(
         `https://translation.googleapis.com/language/translate/v2?key=${apiKey}&q=${englishWord}&source=en&target=ar`
       );
-      const data = await response.json();
-      const arabicWord = data.data.translations[0].translatedText;
+      const arabicData = await arabicResponse.json();
+      const arabicWord = arabicData.data.translations[0].translatedText;
       arabicWords.push(arabicWord);
       await this.handleSpeak(englishWord, "en-US");
       await this.handleSpeak(arabicWord, "ar-SA");
+
+      // Translate to Swedish
+      const swedishResponse = await fetch(
+        `https://translation.googleapis.com/language/translate/v2?key=${apiKey}&q=${englishWord}&source=en&target=sv`
+      );
+      const swedishData = await swedishResponse.json();
+      const swedishWord = swedishData.data.translations[0].translatedText;
+      swedishWords.push(swedishWord);
+      await this.handleSpeak(swedishWord, "sv-SE");
     }
 
-    this.setState({ arabicWords });
+    this.setState({ arabicWords, swedishWords });
   }
 
   render() {
@@ -50,11 +62,27 @@ class TranslateApp extends React.Component {
       .split(" ")
       .map((word, index) => {
         const arabicWord = this.state.arabicWords[index];
-        if (arabicWord) {
+        const swedishWord = this.state.swedishWords[index];
+        if (arabicWord && swedishWord) {
           return (
             <React.Fragment key={index}>
               <p>{word}</p>
               <p>{arabicWord}</p>
+              <p>{swedishWord}</p>
+            </React.Fragment>
+          );
+        } else if (arabicWord) {
+          return (
+            <React.Fragment key={index}>
+              <p>{word}</p>
+              <p>{arabicWord}</p>
+            </React.Fragment>
+          );
+        } else if (swedishWord) {
+          return (
+            <React.Fragment key={index}>
+              <p>{word}</p>
+              <p>{swedishWord}</p>
             </React.Fragment>
           );
         }
@@ -74,6 +102,8 @@ class TranslateApp extends React.Component {
         <br />
         <label htmlFor="arabicWords">Spelling:</label>
         <div id="arabicWords">{wordSpelling}</div>
+       
+        <div id="swedishWord">{wordSpelling}</div>
       </div>
     );
   }
