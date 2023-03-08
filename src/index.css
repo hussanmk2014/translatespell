@@ -16,6 +16,7 @@ code {
   margin: 0 auto;
   padding: 40px;
   text-align: center;
+
 }
 
 h1 {
@@ -47,7 +48,7 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-bottom: 1px;
 }
 
 .word-container {
@@ -73,4 +74,15 @@ button {
 
 .word .translation {
   color: #007bff;
+}
+
+
+.button-container {
+  display: flex; /* make the container a flex container */
+  justify-content: space-evenly; /* distribute the buttons along the row with space between them */
+  padding: 1px 0; /* add 10px of padding above and below the buttons */
+}
+
+.button {
+  padding: 1px; /* add 10px of padding to the buttons */
 }

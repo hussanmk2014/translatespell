@@ -28,7 +28,31 @@ class TranslateApp extends React.Component {
     });
   }
 
-  async handleTranslateAndSpeak() {
+  async handleTranslate() {
+    const apiKey = "AIzaSyDE-wAlnykNe_rgHjTeXFpO_2h3AeIiebw";
+    const englishWords = this.state.englishWords.split(" ");
+    const arabicWords = [];
+    const swedishWords = [];
+
+    for (const englishWord of englishWords) {
+      const arabicResponse = await fetch(
+        `https://translation.googleapis.com/language/translate/v2?key=${apiKey}&q=${englishWord}&source=en&target=ar`
+      );
+      const arabicData = await arabicResponse.json();
+      const arabicWord = arabicData.data.translations[0].translatedText;
+      arabicWords.push(arabicWord);
+      const swedishResponse = await fetch(
+        `https://translation.googleapis.com/language/translate/v2?key=${apiKey}&q=${englishWord}&source=en&target=sv`
+      );
+      const swedishData = await swedishResponse.json();
+      const swedishWord = swedishData.data.translations[0].translatedText;
+      swedishWords.push(swedishWord);
+    }
+
+    this.setState({ arabicWords, swedishWords });
+  }
+
+  async handleSpeakWords() {
     const apiKey = "AIzaSyDE-wAlnykNe_rgHjTeXFpO_2h3AeIiebw";
     const englishWords = this.state.englishWords.split(" ");
     const arabicWords = [];
@@ -82,7 +106,11 @@ class TranslateApp extends React.Component {
           value={englishWords}
           onChange={this.handleWordChange}
         />
-        <button onClick={this.handleTranslateAndSpeak.bind(this)}>Speak</button>
+        <div class="button-container">
+        <button onClick={this.handleTranslate.bind(this)}>translate</button>
+       <button onClick={this.handleSpeakWords.bind(this)}>Speak</button>
+        </div>
+
         <div className="word-container">{wordSpelling}</div>
       </div>
     );
