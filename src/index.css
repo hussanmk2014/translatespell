@@ -36,6 +36,7 @@ input {
   border-radius: 5px;
   border: none;
   margin-bottom: 20px;
+  background-color: #caddf1;
 }
 
 button {
@@ -53,6 +54,7 @@ button {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  background-color: #caddf1;
 }
 
 .word {
