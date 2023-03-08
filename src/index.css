@@ -11,3 +11,64 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+input {
+  font-size: 1.2rem;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 20px;
+}
+
+button {
+  font-size: 1.2rem;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.word-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.word {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 200px;
+}
+
+.word p {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.word .translation {
+  color: #007bff;
+}

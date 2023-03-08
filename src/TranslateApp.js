@@ -1,4 +1,5 @@
 import React from "react";
+import "./index.css";
 
 class TranslateApp extends React.Component {
   constructor(props) {
@@ -34,7 +35,6 @@ class TranslateApp extends React.Component {
     const swedishWords = [];
 
     for (const englishWord of englishWords) {
-      // Translate to Arabic
       const arabicResponse = await fetch(
         `https://translation.googleapis.com/language/translate/v2?key=${apiKey}&q=${englishWord}&source=en&target=ar`
       );
@@ -44,7 +44,6 @@ class TranslateApp extends React.Component {
       await this.handleSpeak(englishWord, "en-US");
       await this.handleSpeak(arabicWord, "ar-SA");
 
-      // Translate to Swedish
       const swedishResponse = await fetch(
         `https://translation.googleapis.com/language/translate/v2?key=${apiKey}&q=${englishWord}&source=en&target=sv`
       );
@@ -58,52 +57,33 @@ class TranslateApp extends React.Component {
   }
 
   render() {
-    const wordSpelling = this.state.englishWords
+    const { englishWords, arabicWords, swedishWords } = this.state;
+    const wordSpelling = englishWords
       .split(" ")
       .map((word, index) => {
-        const arabicWord = this.state.arabicWords[index];
-        const swedishWord = this.state.swedishWords[index];
-        if (arabicWord && swedishWord) {
-          return (
-            <React.Fragment key={index}>
-              <p>{word}</p>
-              <p>{arabicWord}</p>
-              <p>{swedishWord}</p>
-            </React.Fragment>
-          );
-        } else if (arabicWord) {
-          return (
-            <React.Fragment key={index}>
-              <p>{word}</p>
-              <p>{arabicWord}</p>
-            </React.Fragment>
-          );
-        } else if (swedishWord) {
-          return (
-            <React.Fragment key={index}>
-              <p>{word}</p>
-              <p>{swedishWord}</p>
-            </React.Fragment>
-          );
-        }
-        return <p key={index}>{word}</p>;
+        const arabicWord = arabicWords[index];
+        const swedishWord = swedishWords[index];
+        return (
+          <div key={index} className="word">
+            <p>{word}</p>
+            {arabicWord && <p className="translation">{arabicWord}</p>}
+            {swedishWord && <p className="translation">{swedishWord}</p>}
+          </div>
+        );
       });
 
     return (
-      <div>
-        <label htmlFor="englishWords">English words:</label>
+      <div className="container">
+        <h1>Word Translator</h1>
+        <label htmlFor="englishWords">Enter English words:</label>
         <input
           type="text"
           id="englishWords"
-          value={this.state.englishWords}
+          value={englishWords}
           onChange={this.handleWordChange}
         />
         <button onClick={this.handleTranslateAndSpeak.bind(this)}>Speak</button>
-        <br />
-        <label htmlFor="arabicWords">Spelling:</label>
-        <div id="arabicWords">{wordSpelling}</div>
-       
-        <div id="swedishWord">{wordSpelling}</div>
+        <div className="word-container">{wordSpelling}</div>
       </div>
     );
   }
